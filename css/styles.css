@@ -1,0 +1,951 @@
+/* ============== COMMON STYLES ============== */
+/* --- Скидання відступів --- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+/* --- у рядкових елементів є невеличкий відступ, 
+його також скидаємо --- */
+img {
+  display: block;
+  /* саме для цього ставимо,
+    щоб позбавитись відступа */
+}
+
+/* --- Скинути маркери --- */
+/* ul,
+ol {
+  list-style-type: none;
+} або зробити це через клас*/
+.list {
+  list-style-type: none;
+}
+
+/* --- Скинути підкреслення у лінк --- */
+/* a {
+  text-decoration: none;
+} */
+.link {
+  text-decoration: none;
+}
+
+/* --- Курсор на кнопку --- */
+button {
+  cursor: pointer;
+}
+
+/* приховати заголовок візуально, але для пошукових 
+систем та скрін рідерів він не приховується */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+body {
+  font-family: Montserrat, sans-serif;
+  background-color: #fafafa;
+}
+
+.container {
+  /* робимо напівгумовий контейнер, ширину
+ вказувати не потрібно, а т.я. нічого центрувати
+ прибрали марджини (зараз він повністю гумовий, але 
+ нижче додаємо медіа правило, яке і зробить його 
+ напів гумовим) */
+  padding-left: 16px;
+  padding-right: 16px;
+  /* щоб контент не приліпав до країв контейнера */
+}
+
+.section {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.accent-color {
+  color: #fd9222;
+  /* винисли окремо, щоб
+  закрашувати в акцентний колір */
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.17;
+  letter-spacing: -0.03em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #111111;
+}
+
+/* ============== /COMMON STYLES ============== */
+
+/* Якщо у користувача ширина 480рх, то контейнер 
+зафіксуємо */
+@media screen and (min-width: 480px) {
+  .container {
+    width: 367px;
+    /* ширина визначається у фігмі по грідам від 
+      колонки до колонки. 
+      В mob/tab версії не було вказано падінги, тому 
+      додали їх до ширини (335рх + (16рх + 16рх)) = 367рх */
+    margin-left: auto;
+    margin-right: auto;
+    /* марджини для того, щоб не приліпав контент до країв */
+  }
+}
+
+/* Це медіа для того, щоб на таблет версії не
+підтягувались стилі від мобільного меню */
+@media screen and (max-width: 767px) {
+  .mobile-open-btn {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    line-height: 0;
+    /* line-height є у кожного елемента, щоб розмір був такий як треба, ставимо йому 0 */
+    /* прибрали зайві стандартні елементи */
+  }
+
+  .mobile-open-btn-icon {
+    stroke: #111111;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    /* витягуємо елемент, позіціонується від вьюпорта */
+    top: 0;
+    left: 0;
+    /* притискаємо до верхнього лівого кута */
+    width: 100%;
+    height: 100%;
+    /* розтягуємо на всю ширину та висоту вьюпорта */
+    z-index: 9999999;
+    background-color: #1E1823;
+
+    /* приховуємо моб. меню, робимо, шоб воно виїзджало */
+    transform: translateX(100%);
+    /* ховається на 100% ширини вьюпорта */
+    transition: transform 250ms linear;
+  }
+
+  .mobile-menu.is-open {
+    transform: translateX(0%);
+  }
+
+  .mobile-menu-container {
+    position: relative;
+    /* щоб кнопка позіціонувалася від контейнеру, 
+  а не від .mobile-menu */
+  }
+
+  .mobile-menu-close-btn {
+    position: absolute;
+    /* виймаємо з потоку, щоб вона не заважала контенту */
+    top: 0;
+    right: 0;
+    /* правим верхім кутом притискаємо до рамки*/
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    line-height: 0;
+    stroke: #ffffff;
+  }
+}
+
+/* ============== HEADER Mobile ============== */
+.page-header {
+  padding-top: 20px;
+  padding-bottom: 18px;
+}
+
+.page-header-container {
+  display: flex;
+  /* для того, щоб поставити бургер на рівні з лого. 
+  Флекс дається на батьківський елемент */
+  align-items: center;
+  /* вирівнюємо по допоміжній осі */
+  justify-content: space-between;
+  /* розділяємо елементи */
+}
+
+.menu {
+  display: none;
+  /* скриваємо непотрібне */
+}
+
+.social-list {
+  display: none;
+  /* скриваємо непотрібне */
+}
+
+.logo {
+  display: flex;
+  text-align: center;
+  /* 2 рядки вище для вирівнювання свг лого */
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.29;
+  letter-spacing: -0.03em;
+  /* letter-spacing : font-size, т.е. -0.54px : 18px = -0.03em */
+
+  color: #111111;
+}
+
+.logo-icon {
+  margin-left: 4px;
+}
+
+/* ============== /HEADER Mobile ============== */
+/* ============== HERO Mobile ============== */
+.hero {
+  max-width: 335px;
+  padding: 395px 16px 21px 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 30px;
+  background: rgba(17, 17, 17, 0.6);
+  background-image:
+    linear-gradient(rgba(17, 17, 17, 0.40),
+      rgba(17, 17, 17, 0.40)),
+    url(../images/hero/chocolate-bg-mob.jpg);
+  background-size: cover;
+  /* якщо у подальшому змінеться розмір БГ, воно буде розтягуватись і буде повністю заповнювати секцію */
+}
+
+@media screen and (min-resolution: 192dpi),
+screen and (min-resolution: 2dppx),
+screen and (min-device-pixel-ratio: 2) {
+  .hero {
+    background-image:
+      linear-gradient(rgba(17, 17, 17, 0.40),
+        rgba(17, 17, 17, 0.40)),
+      url(../images/hero/chocolate-bg-mob@2x.jpg);
+  }
+}
+
+.main-title {
+  max-width: 295px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  margin-bottom: 32px;
+
+  color: #ffffff;
+}
+
+.hero-bottom-block {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.buy-now-btn {
+  min-width: 120px;
+  height: 41px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 14px;
+  border-radius: 100px;
+  border: none;
+
+  background-color: #fd9222;
+  color: #ffffff;
+
+  transition: background-color 250ms linear, color 250ms linear;
+}
+
+.buy-now-btn:hover,
+.buy-now-btn:focus {
+  background-color: #fcf1e0;
+  color: #fd9222;
+}
+
+.how-made-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 159px;
+  height: 41px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 100px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+}
+
+.scroll-down-link-wrapper {
+  margin-top: 32px;
+}
+
+.scroll-down-link {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.17;
+  letter-spacing: -0.03em;
+  column-gap: 14px;
+  transition: color 250ms linear;
+
+  color: #ffffff;
+}
+
+
+.scroll-down-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  fill: #fd9222;
+  transition: background-color 250ms linear, fill 250ms linear;
+}
+
+/* ============== /HERO Mobile ============== */
+/* ============== BENEFITS Mobile ============== */
+.benefits {
+  margin-top: 42px;
+  margin-bottom: 20px;
+  background-color: #1e1823;
+}
+
+.benefits-container {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.benefits-list-item {
+  margin-bottom: 20px;
+}
+
+.benefits-list-item:last-child {
+  margin-bottom: 0;
+}
+
+.benefits-list-item-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.50);
+}
+
+.benefits-list-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 18px;
+
+  color: #ffffff;
+}
+
+.benefits-list-text {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+
+  color: rgba(255, 255, 255, 0.70);
+}
+
+/* ============== /BENEFITS Mobile ============== */
+/* ============== INGREDIENTS Mobile ============== */
+.ingredients-title {
+  width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 24px;
+}
+
+.ingredients-description {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: -0.02em;
+  width: 300px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  /* тому, що блоковий елемент */
+  margin-bottom: 32px;
+
+  color: #111111;
+}
+
+.ingredients-list-item {
+  /* для того, щоб спозіціунувати картку overlay */
+  position: relative;
+  /* 100% - width батьківського елемента
+    3 - кількість проміжків
+    19px - розмір проміжку між картками
+    4 - кількість карток
+    це робиться замість фіксованної ширини, для подальшого для адаптивності, карточки будуть підлаштовуватись */
+  margin-bottom: 20px;
+  border-radius: 15px;
+  padding-top: 28px;
+  padding-bottom: 28px;
+  padding-left: 56px;
+  padding-right: 56px;
+  border: 1px solid #fd9222;
+  /* "весь контент, який вилізає - приховуй" */
+  overflow: hidden;
+}
+
+.ingredients-list-item:last-child {
+  margin-bottom: 0;
+}
+
+.ingredients-list-item:nth-child(4n + 1) {
+  background-color: #fd9222;
+  color: #ffffff;
+}
+
+/* 
+  4n + 3
+  4 * 0 + 3 = 3;
+  4 * 1 + 3 = 7;
+  4 * 2 + 3 = 11;
+  */
+.ingredients-list-item:nth-child(4n + 3) {
+  background-color: #1e1823;
+  border-color: #1e1823;
+  color: #ffffff;
+}
+
+/* всім парним елементам */
+.ingredients-list-item:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.ingredients-list-img {
+  margin-bottom: 25px;
+}
+
+.ingredients-list-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.29;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.overlay {
+  /* щоб елемент був по розміру картки від якої позиціонується */
+  height: 100%;
+  /* коли одна карточка поверх другої, одразу думаємо про absolute */
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 15px;
+  padding: 28px;
+  color: #111111;
+  background-color: #ffffff;
+  /* якщо буде переповнення контенту, зʼявиться скрол */
+  overflow: auto;
+  transition: transform 250ms linear;
+  /* щоб сховати оверлей: */
+  transform: translateY(100%);
+}
+
+.ingredients-list-item:hover .overlay {
+  transform: translateY(0%);
+}
+
+.overlay-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+
+  color: #111111;
+}
+
+.overlay-tegs-list {
+  display: flex;
+  column-gap: 6px;
+  margin-bottom: 14px;
+}
+
+/* звертаємось до непарних ли */
+.overlay-tegs-item:nth-child(odd) .overlay-tegs-list-text {
+  background-color: #FD9222;
+  color: #ffffff;
+}
+
+/* до парних ли  */
+.overlay-tegs-item:nth-child(even) .overlay-tegs-list-text {
+  background-color: #fafafa;
+}
+
+.overlay-tegs-list-text {
+  display: flex;
+  height: 24px;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.2;
+  border-radius: 35px;
+  padding-left: 16px;
+  padding-right: 16px;
+  align-items: center;
+  border: 1px solid #FD9222;
+}
+
+.overlay-text {
+  font-size: 14px;
+  line-height: 1.29;
+  letter-spacing: -0.02em;
+}
+
+/* ============== /INGREDIENTS Mobile ============== */
+/* ============== HOW IT`S MADE Mobile ============== */
+.how-title {
+  margin-bottom: 32px;
+}
+
+.how-made-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.how-made-img {
+  margin-bottom: 20px;
+}
+
+.how-made-text-wrapper {
+  flex-grow: 1;
+  padding: 20px 14px;
+  border-radius: 15px;
+  background-color: #ffffff;
+}
+
+.how-made-list-title {
+  max-width: 307px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.33;
+  margin-bottom: 20px;
+
+  color: #111111;
+}
+
+.how-made-list {
+  padding-left: 16px;
+}
+
+.how-made-list-item {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: -0.02em;
+
+  color: #111111;
+}
+
+.how-made-list-item:not(:last-child) {
+  margin-bottom: 18px;
+}
+
+/* ============== /HOW IT`S MADE Mobile ============== */
+
+
+/* --------- TABLET --------- */
+@media screen and (min-width: 768px) {
+  .container {
+    width: 736px;
+    /* 704рх+(16рх + 16рх))=736рх */
+  }
+
+  /* ============== HEADER Tablet ============== */
+  /* приховуємо кнопку бургера */
+  .mobile-open-btn {
+    display: none;
+  }
+
+  /* приховуємо моб. меню */
+  .mobile-menu {
+    display: none;
+  }
+
+  .page-header {
+    padding-top: 24px;
+    padding-bottom: 32px;
+  }
+
+  .page-header-container {
+    display: flex;
+    justify-content: space-between;
+    /* для того щоб лого та свг притиснулись до країв */
+  }
+
+  .page-navigation {
+    display: flex;
+    /* для того, щоб лого та меню були на одній лінії на батьківский елемент задаємо: */
+    align-items: center;
+    /* щоб флекс елементи центрувались по допоміжній осі */
+    justify-content: space-between;
+    width: 100%;
+    max-width: 590px;
+    /* максимальна ширина до якої може розтягнутись (вимірювалось від початку лого до кінця меню навігації) */
+  }
+
+  .menu {
+    display: flex;
+    /* вже зʼявляється */
+    column-gap: 24px;
+  }
+
+  .menu-link {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    transition: color 250ms linear;
+
+    color: #111111;
+  }
+
+  .menu-link:hover,
+  .menu-link:focus {
+    color: #fd9222;
+  }
+
+  .social-list {
+    display: flex;
+    /* вже зʼявляється */
+    align-items: center;
+    column-gap: 18px;
+  }
+
+  .social-list-icon {
+    fill: none;
+    stroke: #111111;
+    transition: stroke 250ms linear;
+  }
+
+  .social-list-link {
+    display: block;
+    line-height: 0;
+  }
+
+  .social-list-link:hover .social-list-icon,
+  .social-list-link:focus .social-list-icon {
+    stroke: #FD9222;
+  }
+
+  /* ============== /HEADER Tablet ============== */
+  /* ============== HERO Tablet ============== */
+  .hero {
+    max-width: 704px;
+    padding: 671px 40px 40px 40px;
+    background-image:
+      linear-gradient(rgba(17, 17, 17, 0.40),
+        rgba(17, 17, 17, 0.40)),
+      url(../images/hero/chocolate-bg-tab.jpg);
+    background-size: cover;
+    /* якщо у подальшому змінеться розмір БГ, воно буде розтягуватись і буде повністю заповнювати секцію */
+  }
+
+  @media screen and (min-resolution: 192dpi),
+  screen and (min-resolution: 2dppx),
+  screen and (min-device-pixel-ratio: 2) {
+    .hero {
+      background-image:
+        linear-gradient(rgba(17, 17, 17, 0.40),
+          rgba(17, 17, 17, 0.40)),
+        url(../images/hero/chocolate-bg-tab@2x.jpg);
+    }
+  }
+
+  .main-title {
+    max-width: 484px;
+    font-size: 28px;
+    line-height: 1.21;
+
+    color: #ffffff;
+  }
+
+  .buy-now-btn {
+    min-width: 144px;
+    height: 45px;
+    font-size: 14px;
+  }
+
+  .how-made-link {
+    min-width: 183px;
+    height: 45px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .how-made-link:hover,
+  .how-made-link:focus {
+    color: #fd9222;
+    border-color: #fd9222;
+  }
+
+  .scroll-down-link-wrapper {
+    margin-top: 0;
+    margin-left: auto;
+  }
+
+  .scroll-down-link {
+    font-size: 14px;
+    line-height: 1.29;
+  }
+
+  .scroll-down-icon-wrapper {
+    width: 38px;
+    height: 38px;
+  }
+
+  .scroll-down-link:hover,
+  .scroll-down-link:focus {
+    color: #fd9222;
+  }
+
+  .scroll-down-link:hover .scroll-down-icon-wrapper {
+    background-color: #fd9222;
+    fill: #ffffff;
+  }
+
+  /* ============== /HERO Tablet ============== */
+  /* ============== BENEFITS Tablet ============== */
+  .benefits {
+    margin-top: 72px;
+    margin-bottom: 50px;
+  }
+
+  .benefits-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .benefits-list {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 60px;
+  }
+
+  .benefits-list-item {
+    margin-bottom: 32px;
+    width: calc((100% - 60px) / 2);
+  }
+
+  .benefits-list-item:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ============== /BENEFITS Tablet ============== */
+  /* ============== INGREDIENTS Tablet ============== */
+  .ingredients-title {
+    width: 411px;
+    margin-bottom: 28px;
+  }
+
+  .ingredients-description {
+    width: 486px;
+    margin-bottom: 50px;
+  }
+
+  .ingredients-list {
+    display: flex;
+    flex-wrap: wrap;
+    /* якщо додадуть ще картки, вони пересунуться на слідуючий рядок */
+    gap: 32px;
+  }
+
+  .ingredients-list-item {
+    /* для того, щоб спозіціунувати картку overlay */
+    position: relative;
+    /* 100% - width батьківського елемента
+  3 - кількість проміжків
+  19px - розмір проміжку між картками
+  4 - кількість карток
+  це робиться замість фіксованної ширини, для подальшого для адаптивності, карточки будуть підлаштовуватись */
+    width: calc((100% - 1 * 32px) / 2);
+    margin-bottom: 0;
+  }
+
+  /* ============== /INGREDIENTS Tablet ============== */
+  /* ============== HOW IT`S MADE Tablet ============== */
+  .how-title {
+    margin-bottom: 50px;
+  }
+
+  .how-made-text-wrapper {
+    padding: 32px;
+  }
+
+  .how-made-list-title {
+    max-width: 350px;
+    margin-bottom: 28px;
+  }
+
+  .how-made-list {
+    padding-right: 70px;
+  }
+
+  .how-made-list-item {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.29;
+    letter-spacing: -0.02em;
+
+    color: #111111;
+  }
+
+  /* ============== /HOW IT`S MADE Tablet ============== */
+
+}
+
+/* --------- DESCTOP --------- */
+@media screen and (min-width: 1200px) {
+  .container {
+    width: 1168px;
+  }
+
+  /* ============== HEADER Desctop ============== */
+  .logo {
+    font-size: 18px;
+    line-height: 1.11;
+    /* line-height 24px : font-size: 18px = 1.11 */
+  }
+
+  .page-navigation {
+    max-width: 980px;
+  }
+
+  /* ============== /HEADER Desctop ============== */
+  /* ============== HERO Desctop ============== */
+
+  .hero {
+    max-width: 1136px;
+    padding: 381px 40px 40px 40px;
+    background-image:
+      linear-gradient(rgba(17, 17, 17, 0.40),
+        rgba(17, 17, 17, 0.40)),
+      url(../images/hero/chocolate-bg.jpeg);
+    background-size: cover;
+    /* якщо у подальшому змінеться розмір БГ, воно буде розтягуватись і буде повністю заповнювати секцію */
+  }
+
+  @media screen and (min-resolution: 192dpi),
+  screen and (min-resolution: 2dppx),
+  screen and (min-device-pixel-ratio: 2) {
+    .hero {
+      background-image:
+        linear-gradient(rgba(17, 17, 17, 0.40),
+          rgba(17, 17, 17, 0.40)),
+        url(../images/hero/chocolate-bg@2x.jpg);
+    }
+  }
+
+  /* ============== /HERO Desctop ============== */
+  /* ============== BENEFITS Desctop ============== */
+
+  .benefits-container {
+    padding-left: 34px;
+    padding-right: 34px;
+  }
+
+  .benefits-list {
+    flex-wrap: nowrap;
+    column-gap: 88px;
+  }
+
+  .benefits-list-item {
+    position: relative;
+    margin-bottom: 0;
+    width: calc((100% - 196px) / 3);
+  }
+
+  .benefits-list-item:not(:last-child)::before {
+    content: " ";
+    position: absolute;
+    right: -18px;
+    transform: translateY(50%);
+    width: 1px;
+    height: 124px;
+    background-color: rgba(255, 255, 255, 0.50);
+  }
+
+  .benefits-list-text {
+    line-height: 1.29;
+  }
+
+  /* ============== /BENEFITS Desctop ============== */
+  /* ============== INGREDIENTS Desctop ============== */
+  .ingredients-list {
+    flex-wrap: nowrap;
+    gap: 19px;
+  }
+
+  .ingredients-list-item {
+    width: calc((100% - 1 * 19px) / 4);
+    padding-left: 28px;
+    padding-right: 36px;
+  }
+
+  .ingredients-list-img {
+    margin-bottom: 36px;
+  }
+
+  .overlay {
+    padding: 20px;
+  }
+
+  /* ============== /INGREDIENTS Desctop ============== */
+  /* ============== HOW IT`S MADE Desctop ============== */
+  .how-made-content-wrapper {
+    flex-direction: row;
+    column-gap: 20px;
+  }
+
+  .how-made-img {
+    margin-bottom: 0;
+  }
+
+  .how-made-list-title {
+    margin-bottom: 32px;
+  }
+
+  .how-made-list {
+    padding-right: 26px;
+  }
+
+  .how-made-list-item:not(:last-child) {
+    margin-bottom: 24px;
+  }
+
+  /* ============== /HOW IT`S MADE Desctop ============== */
+}
